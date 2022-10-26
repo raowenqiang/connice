@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.connice.blog.mapper.BlogMapper">
+    <!-- 以下为实体类与数据库的对应关系 column指向数据库 property指向实体类   -->
+    <resultMap id="BaseResultBlog" type="com.connice.blog.entity.Blog">
+        <result column="blog_id" jdbcType="VARCHAR" property="blogId" />
+        <result column="blog_title" jdbcType="VARCHAR" property="blogTitle" />
+        <result column="blog_pic" jdbcType="VARCHAR" property="blogPic" />
+        <result column="blog_interption" jdbcType="VARCHAR" property="blogInterption" />
+        <result column="blog_text" jdbcType="VARCHAR" property="blogText" />
+        <result column="add_time" jdbcType="DATE" property="addTime" />
+        <result column="update_time" jdbcType="DATE" property="updateTime" />
+        <result column="blog_view" jdbcType="VARCHAR" property="blogView" />
+        <result column="comment_count" jdbcType="VARCHAR" property="commentCount" />
+        <result column="bz" jdbcType="VARCHAR" property="bz" />
+        <result column="appreciation" jdbcType="VARCHAR" property="appreciation" />
+        <result column="blog_origin" jdbcType="VARCHAR" property="blogOrigin" />
+        <result column="blog_fisrt" jdbcType="VARCHAR" property="blogFisrt" />
+        <result column="blog_cg" jdbcType="VARCHAR" property="blogCg" />
+        <result column="blog_yc" jdbcType="VARCHAR" property="blogYc" />
+        <association property="type" javaType="com.connice.blog.entity.Type">
+            <result column="type_id" jdbcType="VARCHAR" property="typeId" />
+            <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+            <result column="create_time" jdbcType="DATE" property="createTime" />
+            <result column="update_time" jdbcType="DATE" property="updateTime" />
+            <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        </association>
+    </resultMap>
+    <sql id="blogParameter">
+        b.blog_id,b.blog_title,b.blog_pic,b.blog_interption,b.blog_text,b.add_time,b.update_time,b.blog_view,b.comment_count,
+        b.bz,b.appreciation,b.blog_origin,b.blog_fisrt,b.blog_cg,b.blog_yc
+    </sql>
+    <delete id="delBlogById">
+        delete  from blog where blog_id = #{blogId}
+    </delete>
+
+    <!--    查询所有博客-->
+    <select id="queryBlogList" resultMap="BaseResultBlog">
+        select t.type_id,t.type_name , <include refid="blogParameter"/>
+         from blog b left join type t on b.type_id = t.type_id
+    </select>
+
+<!--    根据ID查询博客-->
+    <select id="queryBlogById" resultType="com.connice.blog.entity.Blog">
+        select <include refid="blogParameter"/>
+        from blog b  where b.blog_id = #{blogId}
+    </select>
+
+    <!--    新增博客-->
+    <insert id="insertBlog" >
+        insert into blog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                blog_id,
+                blog_title,
+                blog_pic,
+                blog_interption,
+                blog_text,
+            <if test="addTime != null">
+                add_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="blogView != null">
+                blog_view,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="typeId != null">
+                type_id,
+            </if>
+            <if test="commentCount != null">
+                comment_count,
+            </if>
+            <if test="bz != null">
+                bz,
+            </if>
+            <if test="appreciation != null">
+                appreciation,
+            </if>
+            <if test="blogOrigin != null">
+                blog_origin,
+            </if>
+            <if test="blogFisrt != null">
+                blog_fisrt,
+            </if>
+            <if test="blogCg != null">
+                blog_cg,
+            </if>
+            <if test="blogYc != null">
+                blog_yc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                #{blogId},
+                #{blogTitle},
+                #{blogPic},
+                #{blogInterption},
+                #{blogText},
+            <if test="addTime != null">
+                #{addTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="blogView != null">
+                #{blogView},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="typeId != null">
+                #{typeId},
+            </if>
+            <if test="commentCount != null">
+                #{commentCount},
+            </if>
+            <if test="bz != null">
+                #{bz},
+            </if>
+            <if test="appreciation != null">
+                #{appreciation},
+            </if>
+            <if test="blogOrigin != null">
+                #{blogOrigin},
+            </if>
+            <if test="blogFisrt != null">
+                #{blogFisrt},
+            </if>
+            <if test="blogCg != null">
+                #{blogCg},
+            </if>
+            <if test="blogYc != null">
+                #{blogYc},
+            </if>
+        </trim>
+    </insert>
+
+<!--    修改博客-->
+    <update id="putBlog">
+        update blog
+        <trim prefix="set" suffixOverrides=",">
+            <if test="blogTitle != null">
+                #{blogTitle},
+            </if>
+            <if test="blogPic != null">
+                #{blogPic},
+            </if>
+            <if test="blogInterption != null">
+                #{blogInterption},
+            </if>
+            <if test="blogText != null">
+                #{blogText},
+            </if>
+            <if test="addTime != null">
+                #{addTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="blogView != null">
+                #{blogView},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="typeId != null">
+                #{typeId},
+            </if>
+            <if test="commentCount != null">
+                #{commentCount},
+            </if>
+            <if test="bz != null">
+                #{bz},
+            </if>
+            <if test="appreciation != null">
+                #{appreciation},
+            </if>
+            <if test="blogOrigin != null">
+                #{blogOrigin},
+            </if>
+            <if test="blogFisrt != null">
+                #{blogFisrt},
+            </if>
+            <if test="blogCg != null">
+                #{blogCg},
+            </if>
+            <if test="blogYc != null">
+                #{blogYc},
+            </if>
+        </trim>
+        where blog_id = #{blogId}
+    </update>
+</mapper>
