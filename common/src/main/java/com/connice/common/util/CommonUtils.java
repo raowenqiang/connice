@@ -36,7 +36,7 @@ public class CommonUtils {
      * @param to
      * @param code
      */
-    public static void send(String to, String code) {
+    public static boolean send(String to, String code) {
         String accessKeyId="LTAI5t8Kz6URnpkiRkJPtjGs";
         String accessSecret = "Xv7U1NfgEAD5Of6dQzSS9VuxBUjlEi";
 
@@ -58,9 +58,10 @@ public class CommonUtils {
             CommonResponse response = client.getCommonResponse(request);
             System.out.println(response.getData());
         } catch (ServerException e) {
-            e.printStackTrace();
+            return false;
         } catch (ClientException e) {
-            e.printStackTrace();
+            return false;
         }
+        return true;
     }
 }

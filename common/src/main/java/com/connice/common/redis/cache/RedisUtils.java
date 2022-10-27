@@ -1,5 +1,6 @@
 package com.connice.common.redis.cache;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,8 @@ import java.util.concurrent.TimeUnit;
  * @author
  */
 @Component
-public  class RedisCache {
+//@Configuration
+public  class RedisUtils {
 
     @Resource
     private  RedisTemplate<String, Object> redisTemplate;

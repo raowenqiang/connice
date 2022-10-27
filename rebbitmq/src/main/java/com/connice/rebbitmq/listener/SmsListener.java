@@ -1,11 +1,9 @@
 package com.connice.rebbitmq.listener;
 
-import com.connice.common.redis.cache.RedisCache;
-import com.connice.common.util.CommonUtils;
+import com.rabbitmq.client.Channel;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * @Author: WenQiangRao
@@ -20,10 +18,19 @@ public class SmsListener {
 
 
     @RabbitListener(queues = "sms.queue")
-    public void listenerWorkQueue(String msg) throws Exception{
-
+    public void listenerWorkQueue(Message message, Channel channel) throws Exception{
+        System.out.println(message);
+//       String a =  MessageHelper.msgToObj(message,String);
+//        System.out.println(message.getBody().toString());
 //        String[] vals = msg.split("%%%%%%");
-//        CommonUtils.send(vals[0],vals[1]);
-        System.out.println("sms接收到的消息:【"+msg+"】发送成功");
+//        Boolean flag = CommonUtils.send(vals[0],vals[1]);
+//        MessageProperties properties = message.getMessageProperties();
+//        long tag = properties.getDeliveryTag();
+        System.out.println(1111111);
+//        if (flag){
+//            channel.basicAck(tag,true);
+//        }else {
+//            channel.basicNack(tag,false,true);
+//        }
     }
 }

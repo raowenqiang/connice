@@ -9,20 +9,15 @@ import com.connice.common.exception.ErrorCode;
 import com.connice.common.exception.ServerException;
 
 
-import com.connice.common.redis.cache.RedisCache;
+import com.connice.common.redis.cache.RedisUtils;
 import com.connice.common.util.CommonUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,13 +60,13 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     }
 
 @Resource
-private RedisCache redisCache;
+private RedisUtils redisUtils;
     @Override
     public PageInfo<Blog> getBlogList(Integer page, Integer size) {
         String code = CommonUtils.code();
         //       2 保存到rabbitMQ中
 //        rabbitTemplate.convertAndSend("sms.queue", "1111-----------"+code);
-        redisCache.set("1111",code);
+        redisUtils.set("1111",code);
         PageHelper.startPage(page,size);
         List<Blog> blogList = blogMapper.queryBlogList();
         PageInfo<Blog> pageInfo = new PageInfo<Blog>(blogList);
