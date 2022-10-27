@@ -5,11 +5,11 @@ import com.connice.blog.entity.Blog;
 import com.connice.blog.mapper.BlogMapper;
 import com.connice.blog.service.BlogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.connice.blog.util.RedisCache;
 import com.connice.common.exception.ErrorCode;
 import com.connice.common.exception.ServerException;
 
 
+import com.connice.common.redis.cache.RedisCache;
 import com.connice.common.util.CommonUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -65,12 +65,12 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     }
 
 @Resource
-private  RedisCache redisCache;
+private RedisCache redisCache;
     @Override
     public PageInfo<Blog> getBlogList(Integer page, Integer size) {
         String code = CommonUtils.code();
         //       2 保存到rabbitMQ中
-//        rabbitTemplate.convertAndSend("sms.queue", "15729608196-----------"+code);
+//        rabbitTemplate.convertAndSend("sms.queue", "1111-----------"+code);
         redisCache.set("1111",code);
         PageHelper.startPage(page,size);
         List<Blog> blogList = blogMapper.queryBlogList();
