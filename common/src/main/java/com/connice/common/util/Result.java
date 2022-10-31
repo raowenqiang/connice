@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * @Author: WenQiangRao
- * @Description:  统一返回类
+ * @Description: 统一返回类
  * @Date: Created in 16:41 2022/10/8
  * Modified By:
  **/
@@ -15,18 +15,21 @@ public class Result<T> {
     private Integer code;// 返回码
     private String message;//返回信息
     private T data;// 返回数据
-    public Result(){
+
+    public Result() {
         this.flag = true;
         this.code = 1;
         this.message = "成功";
-        this.data =null;
+        this.data = null;
     }
-    public Result(Boolean flag,Integer code,String message,T data){
+
+    public Result(Boolean flag, Integer code, String message, T data) {
         this.flag = false;
         this.code = code;
         this.message = message;
-        this.data =data;
+        this.data = data;
     }
+
     public static <T> Result<T> ok() {
         return ok(null);
     }

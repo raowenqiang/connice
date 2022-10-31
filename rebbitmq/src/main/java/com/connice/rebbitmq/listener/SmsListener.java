@@ -16,9 +16,8 @@ import org.springframework.stereotype.Component;
 public class SmsListener {
 
 
-
     @RabbitListener(queues = "sms.queue")
-    public void listenerWorkQueue(Message message, Channel channel) throws Exception{
+    public void listenerWorkQueue(String code, Message message, Channel channel) throws Exception {
         System.out.println(message);
 //       String a =  MessageHelper.msgToObj(message,String);
 //        System.out.println(message.getBody().toString());
@@ -27,6 +26,7 @@ public class SmsListener {
 //        MessageProperties properties = message.getMessageProperties();
 //        long tag = properties.getDeliveryTag();
         System.out.println(1111111);
+        System.out.println(code);
 //        if (flag){
 //            channel.basicAck(tag,true);
 //        }else {

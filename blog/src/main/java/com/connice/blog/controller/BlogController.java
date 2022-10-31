@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author RaoWwenQiang
@@ -30,11 +30,12 @@ public class BlogController {
 
     /**
      * 新增博客
+     *
      * @param blog
      * @return
      */
     @PostMapping("/addBlog")
-    public Result<String> addBlog(@RequestBody Blog blog){
+    public Result<String> addBlog(@RequestBody Blog blog) {
         Result<String> result = new Result<>();
         blogService.addBlog(blog);
         return result;
@@ -42,11 +43,12 @@ public class BlogController {
 
     /**
      * 修改博客
+     *
      * @param blog
      * @return
      */
     @PutMapping("/putBlog")
-    public Result<String> putBlog(@RequestBody Blog blog){
+    public Result<String> putBlog(@RequestBody Blog blog) {
         Result<String> result = new Result<>();
         blogService.putBlog(blog);
         return result;
@@ -54,26 +56,28 @@ public class BlogController {
 
     /**
      * 分页查询所有博客
+     *
      * @param page
      * @param size
      * @return
      */
     @GetMapping("getList")
-    public Result getBlogList(@RequestParam(value = "page",defaultValue = "1") Integer page,
-                              @RequestParam(value = "size",defaultValue = "10") Integer size){
+    public Result getBlogList(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                              @RequestParam(value = "size", defaultValue = "10") Integer size) {
         Result result = new Result<>();
-        PageInfo<Blog> blogList = blogService.getBlogList(page,size);
+        PageInfo<Blog> blogList = blogService.getBlogList(page, size);
         result.setData(blogList);
         return result;
     }
 
     /**
      * 根据ID查询博客详情
+     *
      * @param blogId
      * @return
      */
     @GetMapping("queryBlogById")
-    public Result<Blog> queryBlogById(@RequestParam(value = "blogId",required = true) String blogId){
+    public Result<Blog> queryBlogById(@RequestParam(value = "blogId", required = true) String blogId) {
         Result<Blog> result = new Result<>();
         Blog blog = blogService.queryBlogById(blogId);
         result.setData(blog);
@@ -81,7 +85,7 @@ public class BlogController {
     }
 
     @DeleteMapping("delBlogById")
-    public Result  delBlogById(@RequestParam(value = "blogId",required = true) String blogId){
+    public Result delBlogById(@RequestParam(value = "blogId", required = true) String blogId) {
         Result<Blog> result = new Result<>();
         blogService.delBlogById(blogId);
         result.setMessage("删除成功");

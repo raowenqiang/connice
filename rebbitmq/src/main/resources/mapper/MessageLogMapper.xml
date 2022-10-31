@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.connice.rebbitmq.mapper.MessageLogMapper">
+    <resultMap id="BaseResultMessage" type="com.connice.rebbitmq.entity.MessageLog">
+        <result column="message_id" jdbcType="VARCHAR" property="messageId"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="try_count" jdbcType="VARCHAR" property="tryCount"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="next_retry" jdbcType="DATE" property="nextRetry"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+    </resultMap>
+    <sql id="messageParameter">
+        m.message_id,m.message,m.try_count,m.status,m.next_retry,m.create_time,m.update_time
+    </sql>
+    <insert id="insert">
+        insert into message_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            message_id,
+            message,
+            try_count,
+            status,
+            <if test="nextRetry != null">
+                next_retry,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{messageId},
+            #{message},
+            #{tryCount},
+            #{status},
+            <if test="nextRetry != null">
+                #{nextRetry},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="putMessage">
+        update message_log
+        <set>
+            <if test="message != null">
+                message = #{message},
+            </if>
+            <if test="nextRetry != null">
+                next_retry = #{nextRetry},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="tryCount != null">
+                try_count = #{tryCount},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where message_id = #{messageId}
+    </update>
+
+    <select id="getMessageById" resultMap="BaseResultMessage" >
+        select  <include refid="messageParameter"/>
+        from message_log m  where m.message_id = #{messageId}
+    </select>
+
+    <select id="getAllMessage" resultMap="BaseResultMessage" parameterType="com.connice.rebbitmq.entity.MessageLog">
+        select <include refid="messageParameter"/>
+        from message_log m
+        where 1=1
+        <if test="message != null">
+          and  message = #{message}
+        </if>
+        <if test="tryCount != null">
+            and try_count = #{tryCount}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+    </select>
+</mapper>

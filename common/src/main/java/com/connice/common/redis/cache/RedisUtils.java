@@ -17,10 +17,17 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 //@Configuration
-public  class RedisUtils {
+public class RedisUtils {
 
     @Resource
-    private  RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
+
+    public RedisUtils(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    public RedisUtils() {
+    }
 
     /**
      * 默认过期时长为24小时，单位：秒
@@ -35,11 +42,31 @@ public  class RedisUtils {
      */
     public final static long HOUR_SIX_EXPIRE = 60 * 60 * 6L;
     /**
+     * 5秒
+     */
+    public static final String FIVE_SECOND = "FIVE_SECOND";
+    /**
+     * 30秒
+     */
+    public static final String THIRTY_SECOND = "THIRTY_SECOND";
+    /**
+     * 1分钟
+     */
+    public static final String ONE_MINUTE = "ONE_MINUTE";
+    /**
+     * 5分钟
+     */
+    public static final String FIVE_MINUTE = "FIVE_MINUTE";
+    /**
+     * 30分钟
+     */
+    public static final String THIRTY_MINUTE = "THIRTY_MINUTE";
+    /**
      * 不设置过期时长
      */
     public final static long NOT_EXPIRE = -1L;
 
-    public  void  set(String key, Object value, long expire) {
+    public void set(String key, Object value, long expire) {
         redisTemplate.opsForValue().set(key, value);
         if (expire != NOT_EXPIRE) {
             expire(key, expire);

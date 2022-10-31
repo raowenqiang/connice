@@ -1,6 +1,9 @@
 spring:
   application:
     name: shop-service
+  main:
+    allow-circular-references: true
+
   cloud:
     nacos:
       # 配置中心

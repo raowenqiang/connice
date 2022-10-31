@@ -9,7 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.connice")
 @EnableDiscoveryClient
 @EnableCaching
 public class BlogApplication {
@@ -18,9 +18,5 @@ public class BlogApplication {
         SpringApplication.run(BlogApplication.class, args);
     }
 
-    @Bean
-    public Queue createSmsQueue(){
-        return new Queue("sms.queue");
-    }
 
 }

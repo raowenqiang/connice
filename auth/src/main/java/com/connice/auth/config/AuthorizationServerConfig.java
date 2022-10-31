@@ -1,7 +1,6 @@
 package com.connice.auth.config;
 
 
-
 /**
  * @Author: WenQiangRao
  * @Description:
@@ -28,6 +27,7 @@ import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
 import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,8 +53,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 //  允许客户端登录的类型
                 //  password表示支持用户名密码登录
                 //  refresh_token表示支持令牌刷新
-                .authorizedGrantTypes("password","refresh_token");
+                .authorizedGrantTypes("password", "refresh_token");
     }
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -98,6 +99,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         // 千万别忘了返回services
         return services;
     }
+
     /**
      * 使用非对称加密算法对token签名
      */
@@ -107,6 +109,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         converter.setKeyPair(keyPair());
         return converter;
     }
+
     /**
      * 从classpath下的密钥库中获取密钥对(公钥+私钥)
      */

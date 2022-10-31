@@ -3,27 +3,27 @@
 <mapper namespace="com.connice.blog.mapper.BlogMapper">
     <!-- 以下为实体类与数据库的对应关系 column指向数据库 property指向实体类   -->
     <resultMap id="BaseResultBlog" type="com.connice.blog.entity.Blog">
-        <result column="blog_id" jdbcType="VARCHAR" property="blogId" />
-        <result column="blog_title" jdbcType="VARCHAR" property="blogTitle" />
-        <result column="blog_pic" jdbcType="VARCHAR" property="blogPic" />
-        <result column="blog_interption" jdbcType="VARCHAR" property="blogInterption" />
-        <result column="blog_text" jdbcType="VARCHAR" property="blogText" />
-        <result column="add_time" jdbcType="DATE" property="addTime" />
-        <result column="update_time" jdbcType="DATE" property="updateTime" />
-        <result column="blog_view" jdbcType="VARCHAR" property="blogView" />
-        <result column="comment_count" jdbcType="VARCHAR" property="commentCount" />
-        <result column="bz" jdbcType="VARCHAR" property="bz" />
-        <result column="appreciation" jdbcType="VARCHAR" property="appreciation" />
-        <result column="blog_origin" jdbcType="VARCHAR" property="blogOrigin" />
-        <result column="blog_fisrt" jdbcType="VARCHAR" property="blogFisrt" />
-        <result column="blog_cg" jdbcType="VARCHAR" property="blogCg" />
-        <result column="blog_yc" jdbcType="VARCHAR" property="blogYc" />
+        <result column="blog_id" jdbcType="VARCHAR" property="blogId"/>
+        <result column="blog_title" jdbcType="VARCHAR" property="blogTitle"/>
+        <result column="blog_pic" jdbcType="VARCHAR" property="blogPic"/>
+        <result column="blog_interption" jdbcType="VARCHAR" property="blogInterption"/>
+        <result column="blog_text" jdbcType="VARCHAR" property="blogText"/>
+        <result column="add_time" jdbcType="DATE" property="addTime"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+        <result column="blog_view" jdbcType="VARCHAR" property="blogView"/>
+        <result column="comment_count" jdbcType="VARCHAR" property="commentCount"/>
+        <result column="bz" jdbcType="VARCHAR" property="bz"/>
+        <result column="appreciation" jdbcType="VARCHAR" property="appreciation"/>
+        <result column="blog_origin" jdbcType="VARCHAR" property="blogOrigin"/>
+        <result column="blog_fisrt" jdbcType="VARCHAR" property="blogFisrt"/>
+        <result column="blog_cg" jdbcType="VARCHAR" property="blogCg"/>
+        <result column="blog_yc" jdbcType="VARCHAR" property="blogYc"/>
         <association property="type" javaType="com.connice.blog.entity.Type">
-            <result column="type_id" jdbcType="VARCHAR" property="typeId" />
-            <result column="type_name" jdbcType="VARCHAR" property="typeName" />
-            <result column="create_time" jdbcType="DATE" property="createTime" />
-            <result column="update_time" jdbcType="DATE" property="updateTime" />
-            <result column="user_id" jdbcType="VARCHAR" property="userId" />
+            <result column="type_id" jdbcType="VARCHAR" property="typeId"/>
+            <result column="type_name" jdbcType="VARCHAR" property="typeName"/>
+            <result column="create_time" jdbcType="DATE" property="createTime"/>
+            <result column="update_time" jdbcType="DATE" property="updateTime"/>
+            <result column="user_id" jdbcType="VARCHAR" property="userId"/>
         </association>
     </resultMap>
     <sql id="blogParameter">
@@ -36,25 +36,27 @@
 
     <!--    查询所有博客-->
     <select id="queryBlogList" resultMap="BaseResultBlog">
-        select t.type_id,t.type_name , <include refid="blogParameter"/>
-         from blog b left join type t on b.type_id = t.type_id
+        select t.type_id,t.type_name ,
+        <include refid="blogParameter"/>
+        from blog b left join type t on b.type_id = t.type_id
     </select>
 
-<!--    根据ID查询博客-->
+    <!--    根据ID查询博客-->
     <select id="queryBlogById" resultType="com.connice.blog.entity.Blog">
-        select <include refid="blogParameter"/>
-        from blog b  where b.blog_id = #{blogId}
+        select
+        <include refid="blogParameter"/>
+        from blog b where b.blog_id = #{blogId}
     </select>
 
     <!--    新增博客-->
-    <insert id="insertBlog" >
+    <insert id="insertBlog">
         insert into blog
         <trim prefix="(" suffix=")" suffixOverrides=",">
-                blog_id,
-                blog_title,
-                blog_pic,
-                blog_interption,
-                blog_text,
+            blog_id,
+            blog_title,
+            blog_pic,
+            blog_interption,
+            blog_text,
             <if test="addTime != null">
                 add_time,
             </if>
@@ -93,11 +95,11 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-                #{blogId},
-                #{blogTitle},
-                #{blogPic},
-                #{blogInterption},
-                #{blogText},
+            #{blogId},
+            #{blogTitle},
+            #{blogPic},
+            #{blogInterption},
+            #{blogText},
             <if test="addTime != null">
                 #{addTime},
             </if>
@@ -137,7 +139,7 @@
         </trim>
     </insert>
 
-<!--    修改博客-->
+    <!--    修改博客-->
     <update id="putBlog">
         update blog
         <trim prefix="set" suffixOverrides=",">

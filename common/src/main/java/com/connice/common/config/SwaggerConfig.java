@@ -18,12 +18,12 @@ import org.springframework.context.annotation.Configuration;
  * Modified By:
  **/
 @Configuration
-public class SwaggerConfig{
+public class SwaggerConfig {
 
     @Bean
-    public GroupedOpenApi userApi(){
-        String[] paths = { "/**" };
-        String[] packagedToMatch = { "com.connice" };
+    public GroupedOpenApi userApi() {
+        String[] paths = {"/**"};
+        String[] packagedToMatch = {"com.connice"};
         return GroupedOpenApi.builder().group("connice")
                 .pathsToMatch(paths)
                 .packagesToScan(packagedToMatch).build();
@@ -31,12 +31,12 @@ public class SwaggerConfig{
 
     @Bean
     public OpenAPI customOpenAPI() {
-        Contact contact= new Contact();
+        Contact contact = new Contact();
         contact.setName("raoernqiang0624@126.com");
 
         OpenAPI openapi = new OpenAPI().info(new Info()
                 .title("connice")
-                .description( "connice")
+                .description("connice")
                 .contact(contact)
                 .version("1.0")
                 .termsOfService("https://maku.net")

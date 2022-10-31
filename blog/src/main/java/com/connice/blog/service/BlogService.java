@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author RaoWwenQiang
@@ -19,24 +19,28 @@ public interface BlogService extends IService<Blog> {
 
     /**
      * 新增博客
+     *
      * @param blog
      */
     void addBlog(Blog blog);
 
     /**
      * 修改博客
+     *
      * @param blog
      */
     void putBlog(Blog blog);
 
     /**
      * 查询所有博客
+     *
      * @return
      */
     PageInfo<Blog> getBlogList(Integer page, Integer size);
 
     /**
      * 根据ID查询博客
+     *
      * @param blogId
      * @return
      */
@@ -44,6 +48,7 @@ public interface BlogService extends IService<Blog> {
 
     /**
      * 删除博客
+     *
      * @param blogId
      */
     void delBlogById(String blogId);
