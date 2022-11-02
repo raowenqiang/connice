@@ -1,7 +1,7 @@
 package com.connice.rebbitmq.mapper;
 
 import com.connice.rebbitmq.entity.MessageLog;
-import org.mapstruct.Mapper;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import java.util.List;
 @Mapper
 public interface MessageLogMapper {
 
-//    新增mq日志
-     void insert(MessageLog messageLog);
+    //    新增mq日志
+    void insert(MessageLog messageLog);
 
     void putMessage(MessageLog messageLog);
 

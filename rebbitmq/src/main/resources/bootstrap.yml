@@ -1,6 +1,8 @@
 spring:
   application:
-    name: shop-service
+    name: mqservice
+  profiles:
+    active: dev
   cloud:
     nacos:
       # 配置中心

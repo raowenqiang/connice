@@ -20,6 +20,7 @@
         <module>geteway</module>
         <module>auth</module>
         <module>rebbitmq</module>
+        <module>api</module>
     </modules>
 
     <properties>

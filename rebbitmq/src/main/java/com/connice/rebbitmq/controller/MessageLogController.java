@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @Author: WenQiangRao
- * @Description:  mq日志控制器
+ * @Description: mq日志控制器
  * @Date: Created in 14:39 2022/10/31
  * Modified By:
  **/
@@ -24,20 +24,22 @@ public class MessageLogController {
 
     /**
      * mq新增日志信息
+     *
      * @return
      */
     @PostMapping("insertMessage")
-    public Result<MessageLog> insertMessage(@RequestBody MessageLog messageLog){
+    public Result<MessageLog> insertMessage(@RequestBody MessageLog messageLog) {
         Result<MessageLog> result = new Result<>();
         MessageLog message = messageLogService.insert(messageLog);
         result.setData(message);
         return result;
     }
+
     /**
      * 修改日志信息
      */
     @PutMapping("putMessage")
-    public Result<MessageLog> putMessage(@RequestBody MessageLog messageLog){
+    public Result<MessageLog> putMessage(@RequestBody MessageLog messageLog) {
         Result<MessageLog> result = new Result<>();
         MessageLog message = messageLogService.putMessage(messageLog);
         result.setData(message);
@@ -46,11 +48,12 @@ public class MessageLogController {
 
     /**
      * 根据ID查询日志信息
+     *
      * @param messageId
      * @return
      */
     @GetMapping("getMessageById")
-    public Result<MessageLog> getMessageById(@RequestParam String messageId){
+    public Result<MessageLog> getMessageById(@RequestParam String messageId) {
         Result<MessageLog> result = new Result<>();
         MessageLog message = messageLogService.getMessageById(messageId);
         result.setData(message);
@@ -59,11 +62,12 @@ public class MessageLogController {
 
     /**
      * 条件查询所有Mq日志
+     *
      * @param messageLog
      * @return
      */
     @GetMapping("getAllMessage")
-    public Result<List<MessageLog>> getAllMessage(MessageLog messageLog){
+    public Result<List<MessageLog>> getAllMessage(MessageLog messageLog) {
         Result<List<MessageLog>> result = new Result<>();
         List<MessageLog> message = messageLogService.getAllMessage(messageLog);
         result.setData(message);

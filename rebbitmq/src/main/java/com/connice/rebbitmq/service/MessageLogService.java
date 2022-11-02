@@ -11,13 +11,15 @@ import java.util.List;
  * Modified By:
  **/
 public interface MessageLogService {
-//    新增mq日志信息
+    //    新增mq日志信息
     MessageLog insert(MessageLog messageLog);
-//修改MQ日志
+
+    //修改MQ日志
     MessageLog putMessage(MessageLog messageLog);
-//根据ID查询日志信息
+
+    //根据ID查询日志信息
     MessageLog getMessageById(String messageId);
 
-//    条件查询所有MQ日志
+    //    条件查询所有MQ日志
     List<MessageLog> getAllMessage(MessageLog messageLog);
 }

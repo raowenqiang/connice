@@ -69,17 +69,19 @@
         where message_id = #{messageId}
     </update>
 
-    <select id="getMessageById" resultMap="BaseResultMessage" >
-        select  <include refid="messageParameter"/>
-        from message_log m  where m.message_id = #{messageId}
+    <select id="getMessageById" resultMap="BaseResultMessage">
+        select
+        <include refid="messageParameter"/>
+        from message_log m where m.message_id = #{messageId}
     </select>
 
     <select id="getAllMessage" resultMap="BaseResultMessage" parameterType="com.connice.rebbitmq.entity.MessageLog">
-        select <include refid="messageParameter"/>
+        select
+        <include refid="messageParameter"/>
         from message_log m
         where 1=1
         <if test="message != null">
-          and  message = #{message}
+            and message = #{message}
         </if>
         <if test="tryCount != null">
             and try_count = #{tryCount}

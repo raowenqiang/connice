@@ -1,6 +1,7 @@
 package com.connice.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.connice.api.mq.SmsFeign;
 import com.connice.blog.entity.Blog;
 import com.connice.blog.mapper.BlogMapper;
 import com.connice.blog.service.BlogService;
@@ -13,8 +14,7 @@ import com.connice.common.util.CommonUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
-import org.apache.commons.lang.StringUtils;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -38,10 +38,9 @@ import java.util.List;
 public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements BlogService {
     @Resource
     private BlogMapper blogMapper;
+
     @Resource
-    private RabbitTemplate rabbitTemplate;
-    @Resource
-    private RedisUtils redisUtils;
+    private SmsFeign smsFeign;
 
     @Override
     @Transactional
@@ -65,11 +64,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
     @Override
     public PageInfo<Blog> getBlogList(Integer page, Integer size) {
-        String code = CommonUtils.code();
-        //       2 保存到rabbitMQ中
-//        rabbitTemplate.convertAndSend()
-        rabbitTemplate.convertAndSend("sms.exchange1", "sms.routing.key", "1111-----------" + code);
-        redisUtils.set("1111", code);
+        smsFeign.sendSms("15729608196");
         PageHelper.startPage(page, size);
         List<Blog> blogList = blogMapper.queryBlogList();
         PageInfo<Blog> pageInfo = new PageInfo<Blog>(blogList);
