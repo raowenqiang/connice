@@ -15,27 +15,26 @@ import java.util.Map;
  * @Date: Created in 13:42 2022/10/18
  * Modified By:
  **/
-
 @Component
 public class SmsListener {
 
-
+    /**
+     * 短信队列监控(消费者)
+     * @param mqMessage
+     * @param message
+     * @param channel
+     * @throws Exception
+     */
     @RabbitListener(queues = "sms.queue")
-    public void listenerWorkQueue(Map map, Message message, Channel channel) throws Exception {
-        System.out.println(message);
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
-//       String a =  MessageHelper.msgToObj(message,String);
-//        System.out.println(message.getBody().toString());
-//        String[] vals = msg.split("%%%%%%");
-//        Boolean flag = CommonUtils.send(vals[0],vals[1]);
-//        MessageProperties properties = message.getMessageProperties();
-//        long tag = properties.getDeliveryTag();
-//        System.out.println(1111111);
-//        System.out.println(map);
-//        if (flag){
-//            channel.basicAck(tag,true);
-//        }else {
-//            channel.basicNack(tag,false,true);
-//        }
+    public void listenerWorkQueue(String mqMessage, Message message, Channel channel) throws Exception {
+        Boolean flag = true;
+//        Boolean flag = CommonUtils.send(map.get("iphone").toString(),map.get("code").toString());
+        System.out.println("---------------------------------------");
+        System.out.println(mqMessage);
+        if (flag){
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+        }else {
+            channel.basicNack(message.getMessageProperties().getDeliveryTag(),false,true);
+        }
     }
 }

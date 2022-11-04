@@ -5,13 +5,16 @@ import com.connice.common.util.CommonUtils;
 import com.connice.rebbitmq.entity.MessageLog;
 import com.connice.rebbitmq.service.MessageLogService;
 import com.connice.rebbitmq.service.SmsService;
+import com.connice.rebbitmq.utils.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -51,8 +54,6 @@ public class SmsServiceImpl implements SmsService {
             throw new IllegalArgumentException("json 序列化 异常");
         }
         log.setMessageId(UUID.randomUUID().toString().replace("-", ""));
-        log.setStatus("0");
-        log.setTryCount(0);
         messageLogService.insert(log);
         rabbitTemplate.convertAndSend("sms.exchange", "sms.routing.key", json,new CorrelationData(log.getMessageId()));
         redisUtils.set(iphone, code);

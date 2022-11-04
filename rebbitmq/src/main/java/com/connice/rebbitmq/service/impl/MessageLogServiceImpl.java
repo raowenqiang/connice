@@ -4,8 +4,10 @@ import com.connice.common.exception.ServerException;
 import com.connice.rebbitmq.entity.MessageLog;
 import com.connice.rebbitmq.mapper.MessageLogMapper;
 import com.connice.rebbitmq.service.MessageLogService;
+import com.connice.rebbitmq.utils.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,9 +32,14 @@ public class MessageLogServiceImpl implements MessageLogService {
 
     @Override
     public MessageLog insert(MessageLog messageLog) {
-        String id = UUID.randomUUID().toString().replaceAll("-", "");
-        messageLog.setMessageId(id);
-        messageLog.setCreateTime(new Date());
+//        String id = UUID.randomUUID().toString().replaceAll("-", "");
+//        messageLog.setMessageId(id);
+        messageLog.setStatus(Constants.ORDER_SENDING);
+        messageLog.setTryCount(0);
+        Date time  = new Date();
+        messageLog.setNextRetry(DateUtils.addMinutes(time, Constants.ORDER_TIMEOUT));
+        messageLog.setUpdateTime(time);
+        messageLog.setCreateTime(time);
         messageLogMapper.insert(messageLog);
         return messageLog;
     }

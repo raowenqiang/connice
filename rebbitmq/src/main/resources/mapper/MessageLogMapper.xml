@@ -68,6 +68,20 @@
         </set>
         where message_id = #{messageId}
     </update>
+<!--    修改状态时间-->
+    <update id="updateReSend">
+        update message_log m
+        set m.try_count = m.try_count + 1,
+          m.update_time = #{updateTime, jdbcType=TIMESTAMP}
+        where m.message_id = #{messageId,jdbcType=VARCHAR}
+    </update>
+<!--    修改成功后的状态-->
+    <update id="changeBrokerMessageLogStatus">
+         update message_log m
+        set m.status = #{status,jdbcType=VARCHAR},
+              m.update_time = #{updateTime, jdbcType=TIMESTAMP}
+        where m.message_id = #{messageId,jdbcType=VARCHAR}
+    </update>
 
     <select id="getMessageById" resultMap="BaseResultMessage">
         select
@@ -89,5 +103,16 @@
         <if test="status != null">
             and status = #{status}
         </if>
+    </select>
+
+<!--    查询发送中且发送超时的数据-->
+    <select id="queryStatusAndTimeoutMessage" resultMap="BaseResultMessage">
+        select
+        <include refid="messageParameter"/>
+        from message_log m
+        where m.status = '0'
+        <![CDATA[
+            and m.next_retry >= sysdate()
+        ]]>
     </select>
 </mapper>

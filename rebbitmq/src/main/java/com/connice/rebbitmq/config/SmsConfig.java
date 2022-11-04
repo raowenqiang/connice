@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SmsConfig {
 
-    //    短信队列
+    // 短信队列
     @Bean
     public Queue createSmsQueue() {
         return new Queue("sms.queue");
