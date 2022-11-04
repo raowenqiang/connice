@@ -2,7 +2,11 @@ package com.connice.rebbitmq.service.impl;
 
 import com.connice.common.redis.cache.RedisUtils;
 import com.connice.common.util.CommonUtils;
+import com.connice.rebbitmq.entity.MessageLog;
+import com.connice.rebbitmq.service.MessageLogService;
 import com.connice.rebbitmq.service.SmsService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @Author: WenQiangRao
@@ -23,6 +28,11 @@ public class SmsServiceImpl implements SmsService {
     private RabbitTemplate rabbitTemplate;
     @Resource
     private RedisUtils redisUtils;
+    @Resource
+    private ObjectMapper objectMapper;
+    @Resource
+    private MessageLogService messageLogService;
+
 
     @Override
     @Transactional
@@ -32,7 +42,19 @@ public class SmsServiceImpl implements SmsService {
         Map map = new HashMap();
         map.put("iphone",iphone);
         map.put("code",code);
-        rabbitTemplate.convertAndSend("sms.exchange", "sms.routing.key", map);
+        MessageLog log = new MessageLog();
+        String json;
+        try {
+            json = objectMapper.writeValueAsString(map);
+            log.setMessage(json);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("json 序列化 异常");
+        }
+        log.setMessageId(UUID.randomUUID().toString().replace("-", ""));
+        log.setStatus("0");
+        log.setTryCount(0);
+        messageLogService.insert(log);
+        rabbitTemplate.convertAndSend("sms.exchange", "sms.routing.key", json,new CorrelationData(log.getMessageId()));
         redisUtils.set(iphone, code);
     }
 }

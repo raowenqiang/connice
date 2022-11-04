@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface SmsFeign {
 
     /**
-     * 短信验证码接收
+     * 短信验证码接收(生产者)
      *
      * @param iphone   手机号
      * @return

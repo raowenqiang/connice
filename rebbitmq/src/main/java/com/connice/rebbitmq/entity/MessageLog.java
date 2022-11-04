@@ -17,7 +17,7 @@ public class MessageLog {
     private String message;
 
     private Integer tryCount;
-
+// 0 投递中 1 投递成功   2 投递失败
     private String status;
 
     private Date nextRetry;
