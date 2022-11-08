@@ -1,17 +1,22 @@
 package com.connice.rebbitmq.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.connice.rebbitmq.service.MessageLogService;
+import com.connice.rebbitmq.utils.Constants;
 import lombok.extern.slf4j.Slf4j;
+import com.alibaba.fastjson.JSON;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * @Author: WenQiangRao
@@ -22,11 +27,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Slf4j
 public class RabbitConfig {
-    @Autowired
+
+    @Resource
     private CachingConnectionFactory connectionFactory;
 
-    //    @Autowired
-//    private MsgLogService msgLogService;
+    @Resource
+    private MessageLogService messageLogService;
+
 //    保证消息一定发送到交换机和保证消息一定到队列
     @Bean
     public RabbitTemplate rabbitTemplate() {
@@ -34,11 +41,10 @@ public class RabbitConfig {
         rabbitTemplate.setMessageConverter(converter());
 //        保证消息一定发送到交换机
         rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
+            String messageId = correlationData.getId();
             if (!ack) {
                 log.info("消息发送到Exchange失败, {}, cause: {}", correlationData, cause);
-                System.out.println("----------------");
-                System.out.println(correlationData);
-                System.out.println(cause);
+                messageLogService.updateReSend(messageId,new Date());
 // 发送失败进行重试机制
             }
         });
@@ -47,8 +53,8 @@ public class RabbitConfig {
         rabbitTemplate.setMandatory(true);
         // 消息是否从Exchange路由到Queue, 注意: 这是一个失败回调, 只有消息从Exchange路由到Queue失败才会回调这个方法
         rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
-            System.out.println("+++++++++++++++++++++++++++++++++");
-            System.out.println(message);
+            Map msg = JSON.parseObject(new String(message.getBody()), Map.class);
+            messageLogService.updateReSend(msg.get("messageId").toString(),new Date());
             log.info("消息丢失:exchange({}),route({}),replyCode({}),replyText({}),message:{}", exchange, routingKey, replyCode, replyText, message);
             // 路由失败，进行重试机制
 

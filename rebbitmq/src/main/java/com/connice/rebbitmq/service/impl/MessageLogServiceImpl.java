@@ -70,4 +70,23 @@ public class MessageLogServiceImpl implements MessageLogService {
         List<MessageLog> logs = messageLogMapper.getAllMessage(messageLog);
         return logs;
     }
+
+    @Override
+    public void changeBrokerMessageLogStatus(String messageId, String status, Date updateTime) {
+        if (StringUtils.isEmpty(messageId)){
+            log.info("日志ID不能为空!");
+            return;
+        }
+        messageLogMapper.changeBrokerMessageLogStatus(messageId,status,updateTime);
+    }
+
+    @Override
+    public List<MessageLog> queryStatusAndTimeoutMessage() {
+        return messageLogMapper.queryStatusAndTimeoutMessage();
+    }
+
+    @Override
+    public void updateReSend(String messageId, Date updateTime) {
+        messageLogMapper.updateReSend(messageId,updateTime);
+    }
 }

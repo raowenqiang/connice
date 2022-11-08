@@ -46,6 +46,8 @@ public class SmsServiceImpl implements SmsService {
         map.put("iphone",iphone);
         map.put("code",code);
         MessageLog log = new MessageLog();
+        log.setMessageId(UUID.randomUUID().toString().replace("-", ""));
+        map.put("messageId",log.getMessageId());
         String json;
         try {
             json = objectMapper.writeValueAsString(map);
@@ -53,9 +55,8 @@ public class SmsServiceImpl implements SmsService {
         } catch (Exception e) {
             throw new IllegalArgumentException("json 序列化 异常");
         }
-        log.setMessageId(UUID.randomUUID().toString().replace("-", ""));
         messageLogService.insert(log);
-        rabbitTemplate.convertAndSend("sms.exchange", "sms.routing.key", json,new CorrelationData(log.getMessageId()));
+        rabbitTemplate.convertAndSend("sms.exchange", "sms.routing.key", map,new CorrelationData(log.getMessageId()));
         redisUtils.set(iphone, code);
     }
 }
