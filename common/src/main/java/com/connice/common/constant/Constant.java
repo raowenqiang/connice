@@ -42,4 +42,21 @@ public interface Constant {
      * OK
      */
     String OK = "OK";
+    /**
+     * 黑名单缓存名
+     */
+    String conncie_blacklist="connice_blacklist";
+
+    /**
+     * 返回结果：是
+     */
+    Boolean returnTrue = true;
+    /**
+     * 返回结果:否
+     */
+    Boolean returnFalse = false;
+    /**
+     * token名字
+     */
+    String AUTHORIZE_TOKEN = "token";
 }
