@@ -30,3 +30,9 @@ spring:
         group: DEFAULT_GROUP
         username: nacos
         password: nacos
+  main:
+    web-application-type: reactive
+secure:
+  ignore:
+    urls: #配置白名单路径
+      - "/auth/oauth/token"

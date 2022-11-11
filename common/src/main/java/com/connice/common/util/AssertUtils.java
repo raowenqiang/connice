@@ -40,7 +40,7 @@ public class AssertUtils {
     public static Boolean isExistList(List list , String o){
         isBlank(o,"IP");
         if (ArrayUtil.isEmpty(list)){   //为空则表示无黑名单，直接通过
-            return Constant.returnTrue;
+            return Constant.returnFalse;
         }
         if (list.contains(o)){
             return Constant.returnTrue;

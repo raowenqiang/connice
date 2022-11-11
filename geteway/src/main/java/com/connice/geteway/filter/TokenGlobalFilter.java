@@ -1,6 +1,8 @@
 package com.connice.geteway.filter;
 
 import com.connice.common.constant.Constant;
+import com.connice.geteway.config.IgnoreUrlsConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -13,14 +15,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 /**
  * @Author: WenQiangRao
  * @Description:  token过滤器
  * @Date: Created in 14:03 2022/11/10
  * Modified By:
  **/
+@Slf4j
 @Component
 public class TokenGlobalFilter implements GlobalFilter, Ordered {
+
+    private IgnoreUrlsConfig ignoreUrlsConfig;
+
+    public  TokenGlobalFilter( IgnoreUrlsConfig ignoreUrlsConfig){
+        this.ignoreUrlsConfig = ignoreUrlsConfig;
+    }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -28,8 +39,8 @@ public class TokenGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         //2. 则获取响应
         ServerHttpResponse response = exchange.getResponse();
-        //3. 如果是登录请求则放行
-        if (request.getURI().getPath().contains("/admin/login")) {
+        //3. 如果是网关访问白名单请求则放行
+        if (check(request.getURI().getPath())) {
             return chain.filter(exchange);
         }
         //4. 获取请求头
@@ -39,6 +50,7 @@ public class TokenGlobalFilter implements GlobalFilter, Ordered {
 
         //6. 判断请求头中是否有令牌
         if (StringUtils.isEmpty(token)) {
+            log.info("请求的url:{} 中无令牌，无法通行",request.getURI().getPath());
             //7. 响应中放入返回的状态吗, 没有权限访问
             response.setStatusCode(HttpStatus.UNAUTHORIZED);
             //8. 返回
@@ -64,5 +76,26 @@ public class TokenGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE;
+    }
+    /**
+     * 检查请求地址是否网关白名单
+     * @param path
+     * @return
+     */
+    private boolean check(String path) {
+        boolean b = false;
+        List<String> urls = ignoreUrlsConfig.getUrls();
+        if (urls.size() > 0) {
+            for (int i = 0; i < urls.size(); i++) {
+                String url = urls.get(i);
+                url = url.replace("/**", "");
+                b = path.contains(url);
+                if (b) {
+                    break;
+                }
+
+            }
+        }
+        return b;
     }
 }
