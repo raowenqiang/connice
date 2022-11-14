@@ -59,4 +59,29 @@ public interface Constant {
      * token名字
      */
     String AUTHORIZE_TOKEN = "token";
+    String LOGIN_TOKEN = "loginToken";
+    /**
+     * 返回成功
+     */
+    String RETURN_SUCCESS = "SUCCESS";
+    /**
+     * 返回失败
+     */
+    String RETURN_FAIL = "fail";
+
+     int HOURS_SEN = 3600;
+     int HOURS_SEN24 = 86400;
+     Long TIME1 = 1L;
+     Long TIME5 = 5L;
+     Long TIME10 = 10L;
+     Long TIME30 = 30L;
+     Long TIME365 = 365L;
+     Long YEAR5 = 1825L;
+     Long MONTH1 = 2592000L;
+     Long YEAR2 = 63072000L;
+     Long TIME365FORSECOND = 31536000L;
+     String LOGIN_USER_TOKEN_PREFIX = "LOGIN_USER_TOKEN_";
+     String TOKEN_ = "TOKEN_";
+     String DICT_TYPE_ = "DICT_TYPE_";
+     String SOCKET_SID = "SOCKET_SID_";
 }

@@ -21,6 +21,7 @@
         <module>auth</module>
         <module>rebbitmq</module>
         <module>api</module>
+        <module>sys-serivce</module>
     </modules>
 
     <properties>
