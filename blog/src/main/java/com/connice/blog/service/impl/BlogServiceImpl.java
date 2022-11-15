@@ -64,7 +64,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
     @Override
     public PageInfo<Blog> getBlogList(Integer page, Integer size) {
-        smsFeign.sendSms("15729608196");
+//        smsFeign.sendSms("15729608196");
         PageHelper.startPage(page, size);
         List<Blog> blogList = blogMapper.queryBlogList();
         PageInfo<Blog> pageInfo = new PageInfo<Blog>(blogList);

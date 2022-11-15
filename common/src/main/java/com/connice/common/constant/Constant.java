@@ -68,8 +68,15 @@ public interface Constant {
      * 返回失败
      */
     String RETURN_FAIL = "fail";
+    String state0 = "0";  //审核中
+    String state1 = "1";  //启用
+    String state2 = "2";   //限制使用
+    String state3 = "3";   //删除
 
-     int HOURS_SEN = 3600;
+    /**
+     * 时间
+     */
+    int HOURS_SEN = 3600;
      int HOURS_SEN24 = 86400;
      Long TIME1 = 1L;
      Long TIME5 = 5L;

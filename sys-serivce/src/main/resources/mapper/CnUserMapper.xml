@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.connice.sys.mapper.CnUserMapper">
+
+    <resultMap id="baseUser" type="com.connice.sys.entity.User">
+        <id property="id" column="id"></id>
+        <result column="user_Name" property="userName"></result>
+        <result column="password" property="password"></result>
+        <result column="iphone" property="iphone"></result>
+        <result column="address" property="address"></result>
+        <result column="new_Address" property="newAddress"></result>
+        <result column="head_Portrait" property="headPortrait"></result>
+        <result column="cart_Id" property="cartId"></result>
+        <result column="cart_Img" property="cartImg"></result>
+        <result column="create_Time" property="createTime"></result>
+        <result column="update_Time" property="updateTime"></result>
+        <result column="user_State" property="userState"></result>
+        <result column="user_Code" property="userCode"></result>
+        <result column="position_Code" property="positionCode"></result>
+    </resultMap>
+
+    <insert id="insertUser">
+        insert into cn_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="username != null and username != ''">
+                username,
+            </if>
+            <if test="password != null and password != ''">
+                password,
+            </if>
+            <if test="iphone != null and iphone != ''">
+                iphone,
+            </if>
+            <if test="address != null and address != ''">
+                address,
+            </if>
+            <if test="newAddress != null and newAddress != ''">
+                new_address,
+            </if>
+            <if test="headPortrait != null and headPortrait != ''">
+                head_portrait,
+            </if>
+            <if test="cartId != null and cartId != ''">
+                cart_id,
+            </if>
+            <if test="cartImg != null and cartImg != ''">
+                cart_img,
+            </if>
+            <if test="createTime != null and createTime != ''">
+                create_time,
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                update_time,
+            </if>
+            <if test="userState != null and userState != ''">
+                user_state,
+            </if>
+            <if test="userCode != null and userCode != ''">
+                user_code,
+            </if>
+            <if test="positionCode != null and positionCode != ''">
+                position_code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id},
+            </if>
+            <if test="username != null and username != ''">
+                #{username},
+            </if>
+            <if test="password != null and password != ''">
+                #{password},
+            </if>
+            <if test="iphone != null and iphone != ''">
+                #{iphone},
+            </if>
+            <if test="address != null and address != ''">
+                #{address},
+            </if>
+            <if test="newAddress != null and newAddress != ''">
+                #{newAddress},
+            </if>
+            <if test="headPortrait != null and headPortrait != ''">
+                #{headPortrait},
+            </if>
+            <if test="cartId != null and cartId != ''">
+                #{cartId},
+            </if>
+            <if test="cartImg != null and cartImg != ''">
+                #{cartImg},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                #{createTime},
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                #{updateTime},
+            </if>
+            <if test="userState != null and userState != ''">
+                #{userState},
+            </if>
+            <if test="userCode != null and userCode != ''">
+                #{userCode},
+            </if>
+            <if test="positionCode != null and positionCode != ''">
+                #{positionCode},
+            </if>
+        </trim>
+
+    </insert>
+
+    <select id="findAllUser" resultMap="baseUser">
+        select id,user_name,password,iphone,address,new_address,head_portrait,cart_id,cart_img,create_time,
+        update_time,user_state,user_code,position_code
+        from cn_user
+        <where>
+            <if test="user.userName!=null">
+               and user_name = #{user.userName}
+            </if>
+            <if test="user.password!=null">
+               and password = #{user.password}
+            </if>
+            <if test="user.iphone!=null">
+               and iphone = #{user.iphone}
+            </if>
+            <if test="user.address!=null">
+                and address = #{user.address}
+            </if>
+            <if test="user.newAddress!=null">
+                and new_address = #{user.newAddress}
+            </if>
+            <if test="user.headPortrait!=null">
+                and head_portrait = #{user.headPortrait}
+            </if>
+            <if test="user.cartId!=null">
+                and cart_id = #{user.cartId}
+            </if>
+            <if test="user.cartImg!=null">
+                and cart_img = #{user.cartImg}
+            </if>
+            <if test="user.createTime!=null">
+                and create_time = #{user.createTime}
+            </if>
+            <if test="user.updateTime!=null">
+                and update_time = #{user.updateTime}
+            </if>
+            <if test="user.userState!=null">
+                and user_state = #{user.userState}
+            </if>
+            <if test="user.userCode!=null">
+                and user_code = #{user.userCode}
+            </if>
+            <if test="user.positionCode!=null">
+                and position_code = #{user.positionCode}
+            </if>
+        </where>
+    </select>
+</mapper>
