@@ -26,5 +26,44 @@ public interface CnUserService extends IService<User> {
      * 新增系统用户
      * @param user
      */
-    void addUser(User user);
+    void saveUser(User user);
+
+    /**
+     * 修改系统用户
+     * @param user
+     */
+    void putUser(User user);
+
+    /**
+     * 根据ID查询用户信息
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    User getUserById(String id) throws Exception;
+
+    /**
+     * 根据id删除信息
+     * @param id
+     * @throws Exception
+     */
+    void delUserById(String id) throws Exception;
+
+    /**
+     * 批量删除用户信息
+     * @param ids
+     */
+    void delUserByIds(String ids) throws Exception;
+
+    /**
+     * 登录逻辑校验
+     * @param iphone
+     * @param code
+     * @param userName
+     * @param password
+     * @return
+     * @throws Exception
+     */
+    User loginUser(String iphone, String code, String userName, String password) throws Exception;
+
 }

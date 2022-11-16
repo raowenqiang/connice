@@ -69,5 +69,4 @@ public class User implements Serializable {
     @ApiModelProperty(value = "职位ID")
     private String positionCode;
 
-
 }

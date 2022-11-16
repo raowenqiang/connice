@@ -32,7 +32,6 @@ public class AssertUtils {
         }
 
     }
-
     /**
      * 判断一个对象是否存在于list中
      * @return  true  存在 false 不存在

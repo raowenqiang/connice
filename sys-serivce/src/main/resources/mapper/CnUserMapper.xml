@@ -4,113 +4,167 @@
 
     <resultMap id="baseUser" type="com.connice.sys.entity.User">
         <id property="id" column="id"></id>
-        <result column="user_Name" property="userName"></result>
+        <result column="user_name" property="userName"></result>
         <result column="password" property="password"></result>
         <result column="iphone" property="iphone"></result>
         <result column="address" property="address"></result>
-        <result column="new_Address" property="newAddress"></result>
-        <result column="head_Portrait" property="headPortrait"></result>
-        <result column="cart_Id" property="cartId"></result>
-        <result column="cart_Img" property="cartImg"></result>
-        <result column="create_Time" property="createTime"></result>
-        <result column="update_Time" property="updateTime"></result>
-        <result column="user_State" property="userState"></result>
-        <result column="user_Code" property="userCode"></result>
-        <result column="position_Code" property="positionCode"></result>
+        <result column="new_address" property="newAddress"></result>
+        <result column="head_portrait" property="headPortrait"></result>
+        <result column="cart_id" property="cartId"></result>
+        <result column="cart_img" property="cartImg"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="user_state" property="userState"></result>
+        <result column="user_code" property="userCode"></result>
+        <result column="position_code" property="positionCode"></result>
     </resultMap>
 
     <insert id="insertUser">
         insert into cn_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null and id != ''">
+            <if test="user.id != null ">
                 id,
             </if>
-            <if test="username != null and username != ''">
-                username,
+            <if test="user.userName != null">
+                user_name,
             </if>
-            <if test="password != null and password != ''">
+            <if test="user.password != null ">
                 password,
             </if>
-            <if test="iphone != null and iphone != ''">
+            <if test="user.iphone != null ">
                 iphone,
             </if>
-            <if test="address != null and address != ''">
+            <if test="user.address != null ">
                 address,
             </if>
-            <if test="newAddress != null and newAddress != ''">
+            <if test="user.newAddress != null ">
                 new_address,
             </if>
-            <if test="headPortrait != null and headPortrait != ''">
+            <if test="user.headPortrait != null ">
                 head_portrait,
             </if>
-            <if test="cartId != null and cartId != ''">
+            <if test="user.cartId != null">
                 cart_id,
             </if>
-            <if test="cartImg != null and cartImg != ''">
+            <if test="user.cartImg != null ">
                 cart_img,
             </if>
-            <if test="createTime != null and createTime != ''">
+            <if test="user.createTime != null ">
                 create_time,
             </if>
-            <if test="updateTime != null and updateTime != ''">
+            <if test="user.updateTime != null ">
                 update_time,
             </if>
-            <if test="userState != null and userState != ''">
+            <if test="user.userState != null ">
                 user_state,
             </if>
-            <if test="userCode != null and userCode != ''">
+            <if test="user.userCode != null ">
                 user_code,
             </if>
-            <if test="positionCode != null and positionCode != ''">
+            <if test="user.positionCode != null ">
                 position_code,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null and id != ''">
-                #{id},
+            <if test="user.id != null ">
+                #{user.id},
             </if>
-            <if test="username != null and username != ''">
-                #{username},
+            <if test="user.userName != null ">
+                #{user.userName},
             </if>
-            <if test="password != null and password != ''">
-                #{password},
+            <if test="user.password != null ">
+                #{user.password},
             </if>
-            <if test="iphone != null and iphone != ''">
-                #{iphone},
+            <if test="user.iphone != null ">
+                #{user.iphone},
             </if>
-            <if test="address != null and address != ''">
-                #{address},
+            <if test="user.address != null ">
+                #{user.address},
             </if>
-            <if test="newAddress != null and newAddress != ''">
-                #{newAddress},
+            <if test="user.newAddress != null ">
+                #{user.newAddress},
             </if>
-            <if test="headPortrait != null and headPortrait != ''">
-                #{headPortrait},
+            <if test="user.headPortrait != null ">
+                #{user.headPortrait},
             </if>
-            <if test="cartId != null and cartId != ''">
-                #{cartId},
+            <if test="user.cartId != null ">
+                #{user.cartId},
             </if>
-            <if test="cartImg != null and cartImg != ''">
-                #{cartImg},
+            <if test="user.cartImg != null">
+                #{user.cartImg},
             </if>
-            <if test="createTime != null and createTime != ''">
-                #{createTime},
+            <if test="user.createTime != null ">
+                #{user.createTime},
             </if>
-            <if test="updateTime != null and updateTime != ''">
-                #{updateTime},
+            <if test="user.updateTime != null">
+                #{user.updateTime},
             </if>
-            <if test="userState != null and userState != ''">
-                #{userState},
+            <if test="user.userState != null ">
+                #{user.userState},
             </if>
-            <if test="userCode != null and userCode != ''">
-                #{userCode},
+            <if test="user.userCode != null ">
+                #{user.userCode},
             </if>
-            <if test="positionCode != null and positionCode != ''">
-                #{positionCode},
+            <if test="user.positionCode != null ">
+                #{user.positionCode},
             </if>
         </trim>
 
     </insert>
+
+    <update id="updateUser">
+        update cn_user
+        <trim prefix="set" prefixOverrides=",">
+            <if test="user.userName != null ">
+                user_name = #{user.userName},
+            </if>
+            <if test="user.password != null ">
+                password = #{user.password},
+            </if>
+            <if test="user.iphone != null ">
+                iphone =  #{user.iphone},
+            </if>
+            <if test="user.address != null ">
+                address = #{user.address},
+            </if>
+            <if test="user.newAddress != null ">
+                new_address = #{user.newAddress},
+            </if>
+            <if test="user.headPortrait != null ">
+                head_portrait = #{user.headPortrait},
+            </if>
+            <if test="user.cartId != null ">
+                cart_id =  #{user.cartId},
+            </if>
+            <if test="user.cartImg != null">
+                cart_img = #{user.cartImg},
+            </if>
+            <if test="user.updateTime != null">
+                update_time = #{user.updateTime},
+            </if>
+            <if test="user.userState != null ">
+                user_state = #{user.userState},
+            </if>
+            <if test="user.userCode != null ">
+                user_code =  #{user.userCode},
+            </if>
+            <if test="user.positionCode != null ">
+                position_code =  #{user.positionCode},
+            </if>
+        </trim>
+        where id = #{user.id}
+    </update>
+
+    <delete id="delUserById">
+        delete from cn_user where id = #{id}
+    </delete>
+    <delete id="delListUser">
+        delete from cn_user where  id in
+        <foreach collection="list" item="id" index="no" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
     <select id="findAllUser" resultMap="baseUser">
         select id,user_name,password,iphone,address,new_address,head_portrait,cart_id,cart_img,create_time,
@@ -157,5 +211,23 @@
                 and position_code = #{user.positionCode}
             </if>
         </where>
+    </select>
+
+    <select id="findUserById" resultType="com.connice.sys.entity.User">
+        select id,user_name,password,iphone,address,new_address,head_portrait,cart_id,cart_img,create_time,
+        update_time,user_state,user_code,position_code
+        from cn_user where id = #{id}
+    </select>
+
+    <select id="findUserByName" resultType="com.connice.sys.entity.User">
+      select id,user_name,password,iphone,address,new_address,head_portrait,cart_id,cart_img,create_time,
+        update_time,user_state,user_code,position_code
+        from cn_user where user_name = #{userName}
+    </select>
+
+    <select id="findUserByIphone" resultType="com.connice.sys.entity.User">
+       select id,user_name,iphone,address,new_address,head_portrait,cart_id,cart_img,create_time,
+        update_time,user_state,user_code,position_code
+        from cn_user where iphone = #{iphone}
     </select>
 </mapper>
