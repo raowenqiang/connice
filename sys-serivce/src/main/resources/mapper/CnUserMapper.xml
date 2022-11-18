@@ -172,25 +172,22 @@
         from cn_user
         <where>
             <if test="user.userName!=null">
-               and user_name = #{user.userName}
-            </if>
-            <if test="user.password!=null">
-               and password = #{user.password}
+               and user_name like  CONCAT('%',#{user.userName},'%')
             </if>
             <if test="user.iphone!=null">
-               and iphone = #{user.iphone}
+               and iphone =  like  CONCAT('%',#{user.iphone},'%')
             </if>
             <if test="user.address!=null">
-                and address = #{user.address}
+                and address = like  CONCAT('%',#{user.address},'%')
             </if>
             <if test="user.newAddress!=null">
-                and new_address = #{user.newAddress}
+                and new_address = like  CONCAT('%',#{user.newAddress},'%')
             </if>
             <if test="user.headPortrait!=null">
-                and head_portrait = #{user.headPortrait}
+                and head_portrait =  like  CONCAT('%',#{user.headPortrait},'%')
             </if>
             <if test="user.cartId!=null">
-                and cart_id = #{user.cartId}
+                and cart_id =  like  CONCAT('%',#{user.cartId},'%')
             </if>
             <if test="user.cartImg!=null">
                 and cart_img = #{user.cartImg}
@@ -211,21 +208,22 @@
                 and position_code = #{user.positionCode}
             </if>
         </where>
+        order by create_time desc
     </select>
 
-    <select id="findUserById" resultType="com.connice.sys.entity.User">
+    <select id="findUserById" resultMap="baseUser">
         select id,user_name,password,iphone,address,new_address,head_portrait,cart_id,cart_img,create_time,
         update_time,user_state,user_code,position_code
         from cn_user where id = #{id}
     </select>
 
-    <select id="findUserByName" resultType="com.connice.sys.entity.User">
+    <select id="findUserByName" resultMap="baseUser">
       select id,user_name,password,iphone,address,new_address,head_portrait,cart_id,cart_img,create_time,
         update_time,user_state,user_code,position_code
         from cn_user where user_name = #{userName}
     </select>
 
-    <select id="findUserByIphone" resultType="com.connice.sys.entity.User">
+    <select id="findUserByIphone" resultMap="baseUser">
        select id,user_name,iphone,address,new_address,head_portrait,cart_id,cart_img,create_time,
         update_time,user_state,user_code,position_code
         from cn_user where iphone = #{iphone}

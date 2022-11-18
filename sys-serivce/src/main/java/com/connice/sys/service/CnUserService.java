@@ -4,6 +4,8 @@ import com.connice.sys.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * <p>
  *  服务类
@@ -56,14 +58,28 @@ public interface CnUserService extends IService<User> {
     void delUserByIds(String ids) throws Exception;
 
     /**
-     * 登录逻辑校验
+     * 登录逻辑校验（手机号跟验证码）
      * @param iphone
      * @param code
+     * @return
+     * @throws Exception
+     */
+    User loginUser(String iphone, String code) ;
+
+    /**
+     * 登录逻辑校验（用户名跟密码）
      * @param userName
      * @param password
      * @return
      * @throws Exception
      */
-    User loginUser(String iphone, String code, String userName, String password) throws Exception;
+    User loginUserByName(String userName, String password);
+
+    /**
+     * 获取当前登录人信息
+     * @param request
+     * @return
+     */
+    User getNewUser(HttpServletRequest request);
 
 }

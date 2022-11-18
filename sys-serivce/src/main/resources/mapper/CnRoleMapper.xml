@@ -2,4 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.connice.sys.mapper.CnRoleMapper">
 
+    <resultMap id="baseRoleMap" type="com.connice.sys.entity.Role">
+        <result column="id" property="id"></result>
+        <result column="role_name" property="roleName"></result>
+        <result column="role_code" property="roleCode"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="is_del" property="isDel"></result>
+        <result column="role_img" property="roleImg"></result>
+    </resultMap>
+    <select id="selectList" resultMap="baseRoleMap">
+            select id,role_name,role_code,create_time,
+            update_time,is_del,role_img
+            from cn_role
+            <where>
+                <if test="role.roleName!=null">
+                    and role_name like  CONCAT('%',#{role.roleName},'%')
+                </if>
+                <if test="role.roleCode!=null">
+                    and role_code =  like  CONCAT('%',#{role.roleCode},'%')
+                </if>
+                <if test="role.createTime!=null">
+                    and create_time = #{role.createTime}
+                </if>
+                <if test="role.updateTime!=null">
+                    and update_time = #{role.updateTime}
+                </if>
+                <if test="role.isDel!=null">
+                    and is_del = #{role.isDel}
+                </if>
+                <if test="role.userCode!=null">
+                    and role_img = #{role.roleImg}
+                </if>
+                <if test="role.positionCode!=null">
+                    and position_code = #{role.positionCode}
+                </if>
+            </where>
+            order by create_time desc
+    </select>
 </mapper>

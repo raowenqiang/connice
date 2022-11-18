@@ -7,7 +7,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author: WenQiangRao
@@ -32,7 +32,7 @@ public class UserController {
      */
     @GetMapping("/getAllUser")
     public Result findAllUser(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                          @RequestParam(value = "size", defaultValue = "10") Integer size,
+                              @RequestParam(value = "size", defaultValue = "10") Integer size,
                                User user){
         Result result = new Result();
         PageInfo<User> userList = cnUserService.findAllUser(page, size,user);
@@ -97,7 +97,7 @@ public class UserController {
      * @return
      * @throws Exception
      */
-    @DeleteMapping("delUserById")
+    @DeleteMapping("delUserByIds")
     public Result delUserByIds(@RequestParam("id")String ids) throws Exception {
         Result result = new Result();
         cnUserService.delUserByIds(ids);
@@ -106,21 +106,47 @@ public class UserController {
 
 
     /**
-     * 登录操作
+     * 登录操作(根据电话号跟验证码)
      * @param iphone
      * @param code
-     * @param userName
-     * @param password
      * @return
      */
-    @GetMapping("login")
-    public Result loginUser(@RequestParam("iphone") String iphone,
-                            @RequestParam("code") String code,
-                            @RequestParam("userName") String userName,
-                            @RequestParam("password")String password) throws Exception {
+    @GetMapping("loginByCode")
+    public Result loginUserByIphone(@RequestParam("iphone") String iphone,
+                            @RequestParam("code") String code) throws Exception {
         Result result = new Result();
-        User user = cnUserService.loginUser(iphone,code,userName,password);
+        User user = cnUserService.loginUser(iphone,code);
         result.setData(user);
         return result;
     }
+
+    /**
+     *登录操作（根据用户名跟密码）
+     * @param userName
+     * @param password
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("loginByName")
+    public Result loginUserByName(@RequestParam("userName") String userName,
+                            @RequestParam("password")String password) throws Exception {
+        Result result = new Result();
+        User user = cnUserService.loginUserByName(userName,password);
+        result.setData(user);
+        return result;
+    }
+
+    /**
+     * 获取当前登录人信息
+     * @param request
+     * @return
+     */
+    @PostMapping("getNewUser")
+    public Result getNewUser(HttpServletRequest request) {
+        Result result = new Result();
+        User user = cnUserService.getNewUser(request);
+        result.setData(user);
+        return result;
+    }
+
 }

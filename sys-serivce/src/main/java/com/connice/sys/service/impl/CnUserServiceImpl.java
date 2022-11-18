@@ -1,10 +1,9 @@
 package com.connice.sys.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.connice.common.constant.Constant;
 import com.connice.common.redis.cache.RedisUtils;
-import com.connice.common.util.AssertUtils;
-import com.connice.common.util.DateUtils;
-import com.connice.common.util.MD5Utils;
+import com.connice.common.util.*;
 import com.connice.sys.entity.User;
 import com.connice.sys.mapper.CnUserMapper;
 import com.connice.sys.service.CnUserService;
@@ -20,10 +19,8 @@ import sun.security.rsa.RSASignature;
 import sun.security.util.Password;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * <p>
@@ -40,6 +37,8 @@ public class CnUserServiceImpl extends ServiceImpl<CnUserMapper, User> implement
     private CnUserMapper cnUserMapper;
     @Resource
     private RedisUtils redisUtils;
+    @Resource
+    private JwtUtil jwtUtil;
 
     @Override
     public PageInfo<User> findAllUser(Integer page, Integer size, User user) {
@@ -100,29 +99,45 @@ public class CnUserServiceImpl extends ServiceImpl<CnUserMapper, User> implement
     }
 
     @Override
-    public User loginUser(String iphone, String code, String userName, String password) throws Exception {
-        if (StringUtils.isEmpty(code)){   //如果验证码未传输，则使用用户名跟密码
-            AssertUtils.isBlank(userName,"用户名");//判断电话号码是否为空
-            AssertUtils.isBlank(password,"密码");//判断电话号码是否为空
-            User user = cnUserMapper.findUserByName(userName);
-            if (user != null && MD5Utils.validate(password,user.getPassword())){
-                user.setPassword("");
-                return user;
-            }else {
-                throw new Exception("用户名或者密码不正确");
-            }
-        }
+    public User loginUser(String iphone, String code)  {
+        AssertUtils.isBlank(code,"验证码");//判断电话号码是否为空
         AssertUtils.isBlank(iphone,"电话号码");//判断电话号码是否为空
         String redisCode = redisUtils.get(iphone).toString();
         if (redisCode.equals(code)){
-            User user = cnUserMapper.findUserByIphone(iphone);
-            if (user!=null){
-                return user;
-            }else {
-                throw new Exception("电话号或者验证码不正确");
-            }
-        }else {
-            throw new Exception("电话号或者验证码不正确");
+            ReturnUtils.returnBlank("验证码不正确");
+            return null;
         }
+        User user = cnUserMapper.findUserByIphone(iphone);
+        if (user!=null){
+            return user;
+        }else {
+            ReturnUtils.returnBlank("此电话号为认证用户信息");
+        }
+        return null;
     }
+
+    @Override
+    public User loginUserByName(String userName, String password) {
+        AssertUtils.isBlank(userName,"用户名");//判断用户名是否为空
+        AssertUtils.isBlank(password,"密码");//判断密码是否为空
+        User user = cnUserMapper.findUserByName(userName);
+        if (user ==null){
+            ReturnUtils.returnBlank("用户名错误");
+        }
+        AssertUtils.isBlank(user.getPassword(),"密码");//判断密码是否为空
+        Boolean flag = MD5Utils.validate(password,user.getPassword());
+        if (!flag){
+            ReturnUtils.returnBlank("密码错误");
+        }
+        return user;
+    }
+
+    @Override
+    public User getNewUser(HttpServletRequest request) {
+        Map map = jwtUtil.getRedisToken(request);
+        User user = JSON.parseObject(JSON.toJSONString(map), User.class);
+        return user;
+    }
+
+
 }
