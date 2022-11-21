@@ -2,6 +2,7 @@ package com.connice.sys.service;
 
 import com.connice.sys.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.connice.sys.vo.UserRole;
 import com.github.pagehelper.PageInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -82,4 +83,28 @@ public interface CnUserService extends IService<User> {
      */
     User getNewUser(HttpServletRequest request);
 
+    /**
+     * 查询用户角色
+     * @param userId
+     * @return
+     */
+    User getUserRole(String userId);
+
+    /**
+     * 给用户分配角色
+     * @param userRole
+     */
+    void userDesRole(UserRole userRole);
+
+    /**
+     * 修改分配的角色
+     * @param userRole
+     */
+    void putUserRole(UserRole userRole);
+
+    /**
+     * 删除用户与角色的关联
+     * @param id
+     */
+    void delUserRole(String id);
 }

@@ -9,6 +9,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -26,7 +27,7 @@ public class CnRoleController {
     private CnRoleService cnRoleService;
 
     /**
-     * 查询所有权限
+     * 查询所有角色
      * @param page
      * @param size
      * @param role
@@ -43,7 +44,7 @@ public class CnRoleController {
     }
 
     /**
-     * 根据id查询权限
+     * 根据id查询角色
      * @param id
      * @return
      */
@@ -56,7 +57,7 @@ public class CnRoleController {
     }
 
     /**
-     * 新增用户权限
+     * 新增用户角色
      * @param role
      * @return
      */
@@ -68,7 +69,7 @@ public class CnRoleController {
     }
 
     /**
-     * 修改用户信息
+     * 修改用户角色
      * @param role
      * @return
      */
@@ -79,6 +80,20 @@ public class CnRoleController {
         return result;
     }
 
+    /**
+     * 根据用户ID查询角色
+     * @param userId
+     * @return
+     */
+    @GetMapping("getRoleByUserId")
+    public Result getRoleByUserId(@RequestParam(value = "userId") String userId){
+        Result result = new Result();
+        List<Role> role  = cnRoleService.getRoleByUserId(userId);
+        result.setData(role);
+        return result;
+    }
+
+    
 
 }
 

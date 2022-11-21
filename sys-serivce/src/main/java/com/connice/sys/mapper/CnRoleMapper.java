@@ -19,9 +19,16 @@ import java.util.List;
 public interface CnRoleMapper extends BaseMapper<Role> {
 
     /**
-     * 查询所有权限
+     * 查询所有角色
      * @param role
      * @return
      */
     List<Role> selectList(Role role);
+
+    /**
+     * 根据用户ID查询角色
+     * @param userId
+     * @return
+     */
+    List<Role> selectListByUserId(String userId);
 }

@@ -40,4 +40,11 @@
             </where>
             order by create_time desc
     </select>
+
+    <select id="selectListByUserId" resultMap="baseRoleMap">
+        select  r.id,r.role_name,r.role_code,r.create_time,
+            r.update_time,r.is_del,r.role_img from  cn_role r
+            left join cn_user_role ur on r.role_id = ur.role_id
+            where ur.user_id = #{userId}
+    </select>
 </mapper>

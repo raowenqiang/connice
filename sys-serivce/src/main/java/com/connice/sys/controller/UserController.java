@@ -3,6 +3,7 @@ package com.connice.sys.controller;
 import com.connice.common.util.Result;
 import com.connice.sys.entity.User;
 import com.connice.sys.service.CnUserService;
+import com.connice.sys.vo.UserRole;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
@@ -149,4 +150,52 @@ public class UserController {
         return result;
     }
 
+    /**
+     * 根据用户ID查询角色
+     * @param userId
+     * @return
+     */
+    @GetMapping("getUserRole")
+    public Result getUserRole(@RequestParam(value = "userId") String userId){
+        Result result = new Result();
+        User user = cnUserService.getUserRole(userId);
+        result.setData(user);
+        return result;
+    }
+
+    /**
+     * 用户分配角色
+     * @param userRole
+     * @return
+     */
+    @PostMapping("userDesRole")
+    public Result userDesRole(@RequestBody UserRole userRole){
+        Result result = new Result();
+        cnUserService.userDesRole(userRole);
+        return result;
+    }
+
+    /**
+     * 修改用户分配的角色
+     * @param userRole
+     * @return
+     */
+    @PutMapping("putUserRole")
+    public Result putUserRole(@RequestBody UserRole userRole){
+        Result result = new Result();
+        cnUserService.putUserRole(userRole);
+        return result;
+    }
+
+    /**
+     * 删除用户关联的角色
+     * @param id
+     * @return
+     */
+    @DeleteMapping("delUserRole")
+    public Result delUserRole(@RequestParam("id")String id){
+        Result result = new Result();
+        cnUserService.delUserRole(id);
+        return result;
+    }
 }

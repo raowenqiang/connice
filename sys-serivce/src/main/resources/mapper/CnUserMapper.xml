@@ -112,6 +112,10 @@
 
     </insert>
 
+    <insert id="addUserRole">
+        insert into cn_user_role(id,user_id,role_id) values (#{userRole.id},#{userRole.userId},#{userRole.roleId})
+    </insert>
+
     <update id="updateUser">
         update cn_user
         <trim prefix="set" prefixOverrides=",">
@@ -154,6 +158,9 @@
         </trim>
         where id = #{user.id}
     </update>
+    <update id="putUserRole">
+        update cn_user_role set  role_id = #{userRole.roleId} where id = #{userRole.id}
+    </update>
 
     <delete id="delUserById">
         delete from cn_user where id = #{id}
@@ -164,6 +171,9 @@
                  separator="," close=")">
             #{id}
         </foreach>
+    </delete>
+    <delete id="delUserRole">
+        delete from cn_user_role where id = #{id}
     </delete>
 
     <select id="findAllUser" resultMap="baseUser">
@@ -212,9 +222,10 @@
     </select>
 
     <select id="findUserById" resultMap="baseUser">
-        select id,user_name,password,iphone,address,new_address,head_portrait,cart_id,cart_img,create_time,
-        update_time,user_state,user_code,position_code
-        from cn_user where id = #{id}
+        select u.id,u.user_name,u.password,u.iphone,u.address,u.new_address,u.head_portrait,u.cart_id,u.cart_img,u.create_time,
+        u.update_time,u.user_state,u.user_code,u.position_code
+        from cn_user u
+         where u.id = #{id}
     </select>
 
     <select id="findUserByName" resultMap="baseUser">
@@ -227,5 +238,40 @@
        select id,user_name,iphone,address,new_address,head_portrait,cart_id,cart_img,create_time,
         update_time,user_state,user_code,position_code
         from cn_user where iphone = #{iphone}
+    </select>
+    <resultMap id="baseUser" type="com.connice.sys.entity.User">
+        <id property="id" column="id"></id>
+        <result column="user_name" property="userName"></result>
+        <result column="password" property="password"></result>
+        <result column="iphone" property="iphone"></result>
+        <result column="address" property="address"></result>
+        <result column="new_address" property="newAddress"></result>
+        <result column="head_portrait" property="headPortrait"></result>
+        <result column="cart_id" property="cartId"></result>
+        <result column="cart_img" property="cartImg"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="user_state" property="userState"></result>
+        <result column="user_code" property="userCode"></result>
+        <result column="position_code" property="positionCode"></result>
+        <collection property="roleList" ofType="com.connice.sys.entity.Role">
+            <result column="id" property="id"></result>
+            <result column="role_name" property="roleName"></result>
+            <result column="role_code" property="roleCode"></result>
+            <result column="create_time" property="createTime"></result>
+            <result column="update_time" property="updateTime"></result>
+            <result column="is_del" property="isDel"></result>
+            <result column="role_img" property="roleImg"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findUserRole" resultType="com.connice.sys.entity.User">
+        select u.id,u.user_name,u.password,u.iphone,u.address,u.new_address,u.head_portrait,u.cart_id,u.cart_img,u.create_time,
+        u.update_time,u.user_state,u.user_code,u.position_code,r.id,r.role_name,r.role_code,r.create_time,
+            r.update_time,r.is_del,r.role_img
+        from cn_user u
+        left  join cn_user_role ur on u.id= ur.user_id
+        left  join cn_role  r on r.id = ur.role_id
+         where u.id = #{id}
     </select>
 </mapper>

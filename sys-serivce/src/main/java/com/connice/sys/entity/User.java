@@ -5,6 +5,8 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -68,5 +70,7 @@ public class User implements Serializable {
 
     @ApiModelProperty(value = "职位ID")
     private String positionCode;
+
+    private List<Role> roleList;
 
 }

@@ -2,4 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.connice.sys.mapper.CnPrivilegeMapper">
 
+    <resultMap id="basePriMap" type="com.connice.sys.entity.Privilege">
+        <result column="id" property="id"></result>
+        <result column="privilege_code" property="privilegeCode"></result>
+        <result column="privilege_name" property="privilegeName"></result>
+        <result column="is_del" property="isDel"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="create_user" property="createUser"></result>
+        <result column="privilege_icon" property="privilegeIcon"></result>
+        <result column="privilege_type" property="privilegeType"></result>
+        <result column="privilege_path" property="privilegePath"></result>
+        <result column="create_user_code" property="createUserCode"></result>
+    </resultMap>
+    <delete id="delRolePri">
+        delete from cn_role_privilege where privilege_id = #{id}
+    </delete>
+    <select id="findPriList" resultMap="basePriMap">
+        select  p.id,p.privilege_code,privilege_name,is_del,create_time,update_time,privilege_icon,privilege_type,privilege_path
+         from cn_privilege
+    </select>
 </mapper>

@@ -8,6 +8,7 @@ import com.connice.sys.entity.User;
 import com.connice.sys.mapper.CnUserMapper;
 import com.connice.sys.service.CnUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.connice.sys.vo.UserRole;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -53,6 +54,10 @@ public class CnUserServiceImpl extends ServiceImpl<CnUserMapper, User> implement
     public void saveUser(User user) {
         AssertUtils.isBlank(user.getPassword(),"密码");//判断密码是否为空
         AssertUtils.isBlank(user.getIphone(),"电话号码");//判断密码是否为空
+        User userIphone = cnUserMapper.findUserByIphone(user.getIphone());
+        if (userIphone!=null){
+            ReturnUtils.returnBlank("电话号已经存在，无法再次注册");
+        }
         user.setId(UUID.randomUUID().toString().replace("-",""));
         user.setCreateTime(new Date());
         user.setUserState(Constant.state0);
@@ -139,5 +144,31 @@ public class CnUserServiceImpl extends ServiceImpl<CnUserMapper, User> implement
         return user;
     }
 
+    @Override
+    public User getUserRole(String userId) {
+        AssertUtils.isBlank(userId,"用户ID");
+        User user = cnUserMapper.findUserRole(userId);
+        return user;
+    }
 
+    @Override
+    public void userDesRole(UserRole userRole) {
+        AssertUtils.isBlank(userRole.getUserId(),"用户ID");
+        AssertUtils.isBlank(userRole.getRoleId(),"角色ID");
+        userRole.setId(UUID.randomUUID().toString().replace("-",""));
+        cnUserMapper.addUserRole(userRole);
+    }
+
+    @Override
+    public void putUserRole(UserRole userRole) {
+        AssertUtils.isBlank(userRole.getId(),"ID");
+        AssertUtils.isBlank(userRole.getRoleId(),"角色ID");
+        cnUserMapper.putUserRole(userRole);
+    }
+
+    @Override
+    public void delUserRole(String id) {
+        AssertUtils.isBlank(id,"ID");
+        cnUserMapper.delUserRole(id);
+    }
 }

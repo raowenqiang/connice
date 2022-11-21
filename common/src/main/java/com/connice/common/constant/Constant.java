@@ -68,8 +68,8 @@ public interface Constant {
      * 返回失败
      */
     String RETURN_FAIL = "fail";
-    String state0 = "0";  //审核中
-    String state1 = "1";  //启用
+    String state0 = "0";  //启用
+    String state1 = "1";  //未启用
     String state2 = "2";   //限制使用
     String state3 = "3";   //删除
 

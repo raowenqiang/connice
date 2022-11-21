@@ -2,6 +2,7 @@ package com.connice.sys.mapper;
 
 import com.connice.sys.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.connice.sys.vo.UserRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -65,5 +66,31 @@ public interface CnUserMapper extends BaseMapper<User> {
      */
     User findUserByName(@Param("userName")String userName);
 
-    User findUserByIphone(String iphone);
+    /**
+     * 通过电话号查询用户信息
+     * @param iphone
+     * @return
+     */
+    User findUserByIphone(@Param("iphone")String iphone);
+
+    /**
+     * 通过用户ID查询用户与角色信息
+     * @param userId
+     * @return
+     */
+    User findUserRole(@Param("userId")String userId);
+
+    /**
+     * 给用户分配角色
+     * @param userRole
+     */
+    void addUserRole(@Param("userRole") UserRole userRole);
+
+    /**
+     * 修改用户分配的角色
+     * @param userRole
+     */
+    void putUserRole(@Param("userRole") UserRole userRole);
+
+    void delUserRole(@Param("id")String id);
 }

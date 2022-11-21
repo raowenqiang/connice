@@ -59,4 +59,10 @@ public class CnRoleServiceImpl  implements CnRoleService {
         role.setUpdateTime(new Date());
         cnRoleMapper.updateById(role);
     }
+
+    @Override
+    public List<Role> getRoleByUserId(String userId) {
+        List<Role> list = cnRoleMapper.selectListByUserId(userId);
+        return list;
+    }
 }
